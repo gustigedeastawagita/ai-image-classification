@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>LingoLens AI</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>LingoLens AI</h1>
+
+            <p class="subtitle">
+                Image Classification Tester
+            </p>
+
+            <div
+                class="upload-box"
+                id="uploadBox"
+            >
+
+                <div class="camera-icon">
+                    📷
+                </div>
+
+                <h2>
+                    Drag & Drop Image
+                </h2>
+
+                <p>
+                    or
+                </p>
+
+                <div class="input-image">
+                    <input
+                        type="file"
+                        id="imageInput"
+                        accept="image/*"
+                    >
+                </div>
+            </div>
+
+
+            <!-- Analyze Button -->
+
+            <button
+                class="button-analyze"
+                id="analyzeButton"
+                disabled
+            >
+                ANALYZE IMAGE
+            </button>
+        </div>
+
+        <div 
+            class="modal"
+            id="resultModal"
+        >
+            <div class="modal-content">
+                <button
+                    class="close-button"
+                    id="closeModal"
+                >
+                    ×
+                </button>
+
+                <img
+                    id="resultImage"
+                    src=""
+                    alt="Result"
+                >
+
+                <h2 id="resultClass">
+                    Apple
+                </h2>
+
+                <p id="resultConfidence">
+                    Confidence: 96.4%
+                </p>
+            </div>
+        </div>
+
+        <script>
+            const imageInput = document.getElementById("imageInput");
+
+            const analyzeButton =
+                document.getElementById("analyzeButton");
+
+            const resultModal =
+                document.getElementById("resultModal");
+
+            const closeModal = 
+                document.getElementById("closeModal");
+
+            const resultImage = 
+                document.getElementById("resultImage");
+
+            const resultClass = 
+                document.getElementById("resultClass");
+
+            const resultConfidence = 
+                document.getElementById("resultConfidence");
+
+            let selectedImage = null;
+
+            // SELECT IMAGE
+
+            imageInput.addEventListener(
+                "change",
+                function() {
+                    selectedImage = this.files[0];
+
+                    if (selectedImage) {
+                        analyzeButton.disabled = false;
+                    }
+                }
+            );
+
+            // Analyze
+            analyzeButton.addEventListener(
+                "click",
+                async function () {
+                    if (!selectedImage) {
+                        return;
+                    }
+
+                    // Upload Image
+
+                    const formData = new FormData();
+
+                    formData.append(
+                        "image",
+                        selectedImage
+                    );
+
+                    await fetch(
+                        "/upload",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+                    const response = await fetch (
+                        "/analyze",
+                        {
+                            method: "POST"
+                        }
+                    );
+
+                    const result = 
+                        await response.json();
+
+                    if (result.success) {
+                        // Show image
+                        resultImage.src =
+                            "/uploaded-image?t=" +
+                            Date.now();
+
+                        // Show prediction
+                        resultClass.textContent = 
+                            result.class;
+
+                        // Show confidence
+                        resultConfidence.textContent = 
+                            "Confidence: " +
+                            result.confidence +
+                            "%";
+
+                        resultModal.classList.add(
+                            "show"
+                        );
+                    }
+                }
+            );
+
+            // Close Modal
+            closeModal.addEventListener(
+                "click",
+                function () {
+                    resultModal.classList.remove(
+                        "show"
+                    );
+                }
+            );
+
+            // Close when clicking outside
+            resultModal.addEventListener(
+                "click",
+                function (event) {
+                    if (event.target === resultModal) {
+                        resultModal.classList.remove(
+                            "show"
+                        );
+                    }
+                }
+            );
+        </script>
+    </body>
+</html>

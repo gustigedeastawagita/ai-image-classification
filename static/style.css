@@ -1,0 +1,205 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+    box-sizing: border-box;
+
+    background-image: url('stacked-waves-haikei.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* Mengubah width statis menjadi max-width agar fleksibel */
+.container {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    box-sizing: border-box;
+
+    padding: 20px 40px;
+
+    background: white;
+
+    border-radius: 12px;
+}
+
+h1 {
+    margin-bottom: 5px;
+    font-size: 2rem; /* Menggunakan rem agar ukuran font menyesuaikan browser */
+}
+
+.subtitle {
+    color: #777;
+    margin-bottom: 30px;
+}
+
+.upload-box {
+    background: #f1f1f1;
+
+    border: 2px dashed #7db7e8;
+    border-radius: 15px;
+
+    padding: 50px 30px;
+
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.camera-icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.upload-box h2 {
+    margin-bottom: 5px;
+}
+
+.upload-box p {
+    color: #888;
+}
+
+
+.button-analyze {
+    width: 100%;
+
+    padding: 15px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #3597e7;
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.button-analyze:hover {
+    transform: translateY(-3px);
+    background: #1464a5;
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.65);
+    display: none;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+    padding: 15px; /* Menjaga modal tidak jebol keluar layar HP */
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    position: relative;
+    
+    width: 420px;
+    max-width: 100%; /* Diubah ke 100% karena pembungkus luarnya sudah diberi padding */
+
+    background: white;
+    border-radius: 20px;
+
+    padding: 45px;
+
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.modal-content img {
+    width: 100%;
+
+    max-height: 400px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+}
+
+.modal-content h2 {
+    margin-top: 20px;
+
+    margin-bottom: 5px;
+
+    text-transform: capitalize;
+}
+
+.modal-content p {
+    color: #777;
+}
+
+.close-button {
+    position: absolute;
+
+    top: 10px;
+    right: 10px;
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    border: none;
+
+    background: rgba(0, 0, 0, 0.3);
+
+    color: white;
+    font-size: 25px;
+
+    cursor: pointer;
+
+    z-index: 2;
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 30px; /* Ditambahkan agar konten tidak menempel ke pinggir layar HP */
+    }
+    h1 {
+        font-size: 1.4rem; /* Mengecilkan judul sedikit di HP */
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .upload-box {
+        padding: 30px 15px; /* Mengurangi padding box agar area unggah lebih luas di layar sempit */
+    }
+
+    .camera-icon {
+        font-size: 35px;
+    }
+
+    .upload-box h2 {
+        font-size: 1.2rem;
+    }
+
+    .input-image input {
+        font-size: 0.6rem;
+    }
+
+    .upload-box p {
+        font-size: 0.8rem;
+    }
+    .button-analyze {
+        padding: 12px; /* Menyesuaikan ukuran tombol */
+        font-size: 0.8rem;
+    }
+}
